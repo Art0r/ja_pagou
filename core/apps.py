@@ -7,5 +7,4 @@ class CoreConfig(AppConfig):
 
     def ready(self):
         print("girando e rodando")
-        return super().ready()
 

@@ -1,6 +1,8 @@
 from factory.django import DjangoModelFactory
 from factory import LazyAttribute
 from faker import Faker
+from core.models import User
+import random
 
 
 faker: Faker = Faker()
@@ -24,3 +26,20 @@ class UserFactory(DjangoModelFactory):
     first_name = LazyAttribute(lambda _: faker.first_name())
     last_name = LazyAttribute(lambda _: faker.last_name())
 
+
+class PaymentFactory(DjangoModelFactory):
+
+    def __init__(self) -> None:
+        super().__init__()
+
+
+    class Meta:
+
+        model = 'core.Payment'
+        django_get_or_create = ('receiver', 
+                                'payier', 
+                                'value')
+
+    receiver = LazyAttribute(lambda _: random.choice(User.objects.all()))
+    payier = LazyAttribute(lambda _: random.choice(User.objects.all()))
+    value = LazyAttribute(lambda _: random.randint(0, 1000))
